@@ -42,12 +42,12 @@ jobs:
      # env:
        #  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         # SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-    - name: validate
+    - name: Maven validate
       run: mvn -B validate --file pom.xml
-    - name: compile
-      run: mvn -B validate --file pom.xml
-    - name: test
+    - name: Maven clean compile
+      run: mvn -X compile --file pom.xml
+    - name: Maven test
       run: mvn -B test --file pom.xml
-    - name: package
+    - name: Maven package
       run: mvn -B package --file pom.xml
       
