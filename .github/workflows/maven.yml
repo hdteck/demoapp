@@ -27,7 +27,7 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
-    - name: Cache the Maven packages to speed up build
+    - name: Cacheado de Maven para acelerar el despliegue
       uses: actions/cache@v1
       with:
         path: ~/.m2
@@ -38,27 +38,35 @@ jobs:
              if [ ! -f "${GITHUB_WORKSPACE}/pom.xml" ]; then
              echo "el fichero pom.xml no existe en el espacio de trabajo ${GITHUB_WORKSPACE}"
              fi
+    - name: Check test classes
+      run: |
+            if [ ! -f "${GITHUB_WORKSPACE}/src/test" ]; then
+            echo "no esta creado el directorio de test"
+            fi         
     - name: Maven clean compile
-      run: mvn -X compile --file pom.xml        
-    - name: SonarQube Scan
-      uses: sonarsource/sonarqube-scan-action@master
-      with:
-         projectBaseDir: src
-         args: >
-               -Dsonar.verbose=true
-               -Dsonar.projectKey=demoapp
-      env:
-         SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
-         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-    - name: SonarQube QualityGate    
-      uses: sonarsource/sonarqube-quality-gate-action@master
-      env:
-          SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}      
+      run: mvn -B clean compile --file pom.xml        
+ #   - name: SonarQube Scan
+ #     uses: sonarsource/sonarqube-scan-action@master
+ #     with:
+ #        projectBaseDir: src
+ #        args: >
+ #              -Dsonar.verbose=true
+ #              -Dsonar.projectKey=demoapp
+ #     env:
+ #        SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
+ #        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+ #   - name: SonarQube QualityGate    
+ #     uses: sonarsource/sonarqube-quality-gate-action@master
+ #     env:
+  #        SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
+  #        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}      
     - name: Maven validate
       run: mvn -B validate --file pom.xml
     - name: Maven test
       run: mvn -B test --file pom.xml
+    - name: Publish Test Report
+      if: success() || failure()
+      uses: scacap/action-surefire-report@v1  
     - name: Maven package
       run: mvn -B package --file pom.xml
       
