@@ -33,6 +33,12 @@ jobs:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
+    - name: Check pom.xml exits
+      run: |
+             if [! -f "${GITHUB_WORKSPACE}/pom.xml"]; then
+             echo "el fichero pom.xml no existe en el espacio de trabajo ${GITHUB_WORKSPACE}"
+             fi
+             
     - name: SonarQube Scan
       uses: sonarsource/sonarqube-scan-action@master
       with:
@@ -42,6 +48,12 @@ jobs:
       env:
          SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+    - name: SonarQube QualityGate    
+      uses: sonarsource/sonarqube-quality-gate-action@master
+        timeout-minutes:5
+      env:
+          SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}      
     - name: Maven validate
       run: mvn -B validate --file pom.xml
     - name: Maven clean compile
