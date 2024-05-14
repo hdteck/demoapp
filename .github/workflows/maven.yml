@@ -38,7 +38,8 @@ jobs:
              if [ ! -f "${GITHUB_WORKSPACE}/pom.xml" ]; then
              echo "el fichero pom.xml no existe en el espacio de trabajo ${GITHUB_WORKSPACE}"
              fi
-             
+    - name: Maven clean compile
+      run: mvn -X compile --file pom.xml        
     - name: SonarQube Scan
       uses: sonarsource/sonarqube-scan-action@master
       with:
@@ -56,8 +57,6 @@ jobs:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}      
     - name: Maven validate
       run: mvn -B validate --file pom.xml
-    - name: Maven clean compile
-      run: mvn -X compile --file pom.xml
     - name: Maven test
       run: mvn -B test --file pom.xml
     - name: Maven package
