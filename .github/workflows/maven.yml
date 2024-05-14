@@ -35,7 +35,7 @@ jobs:
         restore-keys: ${{ runner.os }}-m2
     - name: Check pom.xml exits
       run: |
-             if [! -f "${GITHUB_WORKSPACE}/pom.xml"]; then
+             if [ ! -f "${GITHUB_WORKSPACE}/pom.xml"]; then
              echo "el fichero pom.xml no existe en el espacio de trabajo ${GITHUB_WORKSPACE}"
              fi
              
