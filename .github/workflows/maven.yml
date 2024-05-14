@@ -41,7 +41,7 @@ jobs:
                -Dsonar.verbose=true
       env:
          SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
-         SONAR_URL: ${{ secrets.SONAR_URL }}
+         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
     - name: Maven validate
       run: mvn -B validate --file pom.xml
     - name: Maven clean compile
