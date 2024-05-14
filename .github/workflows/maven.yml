@@ -36,12 +36,12 @@ jobs:
     - name: SonarQube Scan
       uses: sonarsource/sonarqube-scan-action@master
       with:
-         projectBaseDir: /src
+         projectBaseDir: src
          args: >
                -Dsonar.verbose=true
       env:
-         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-         SONAR_URL: ${{ secrets.SONAR_HOST_URL }}
+         SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
+         SONAR_URL: ${{ secrets.SONAR_URL }}
     - name: Maven validate
       run: mvn -B validate --file pom.xml
     - name: Maven clean compile
