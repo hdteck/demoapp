@@ -9,5 +9,9 @@ class DemoAppApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
+        @Test
+        public void testHelloWorld() {
+        HelloWorldService service = new HelloWorldService();
+        assertEquals("Hello, world!", service.getMessage());
+  }
 }
