@@ -33,15 +33,15 @@ jobs:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
-#    - name: SonarQube Scan
- #     uses: sonarsource/sonarqube-scan-action@master
- #    with:
-  #     projectBaseDir: app/src
-#     args: >
-#      -Dsonar.verbose=true
-     # env:
-       #  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        # SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+    - name: SonarQube Scan
+      uses: sonarsource/sonarqube-scan-action@master
+      with:
+         projectBaseDir: app/src
+         args: >
+               -Dsonar.verbose=true
+      env:
+         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+         SONAR_URL: ${{ secrets.SONAR_HOST_URL }}
     - name: Maven validate
       run: mvn -B validate --file pom.xml
     - name: Maven clean compile
