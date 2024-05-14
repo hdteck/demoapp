@@ -45,6 +45,7 @@ jobs:
          projectBaseDir: src
          args: >
                -Dsonar.verbose=true
+               -Dsonar.projectKey=demoapp
       env:
          SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
