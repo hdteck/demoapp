@@ -1,0 +1,25 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: demoapp
+  description: Aplicación Java construida con Maven
+  # opcional: etiquetas para filtrar en Backstage
+  tags:
+    - java
+    - maven
+    - backend
+spec:
+  type: service          # servicio backend
+  lifecycle: experimental
+  owner: developers      # cambia por el nombre del equipo o persona responsable
+  providesApis:
+    - mi-api-principal
+  consumesApis: []
+  system: sistema-principal
+  dependsOn: []
+  # Para repositorios Git, es importante especificar el origen:
+  repository: https://github.com/hdteck/demoapp
+  # Información de construcción (opcional):
+  build:
+    system: maven
+    command: mvn package
